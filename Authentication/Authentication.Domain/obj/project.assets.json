@@ -1,11 +1,30 @@
 {
   "version": 3,
   "targets": {
-    ".NETCoreApp,Version=v3.1": {}
+    ".NETCoreApp,Version=v3.1": {
+      "Shared.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/Shared.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Shared.Core.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "Shared.Core/1.0.0": {
+      "type": "project",
+      "path": "../../Shared/Shared.Core/Shared.Core.csproj",
+      "msbuildProject": "../../Shared/Shared.Core/Shared.Core.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    ".NETCoreApp,Version=v3.1": []
+    ".NETCoreApp,Version=v3.1": [
+      "Shared.Core >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\m.jolivet\\.nuget\\packages\\": {},
@@ -36,7 +55,11 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\Conges\\Conges\\Shared\\Shared.Core\\Shared.Core.csproj": {
+              "projectPath": "D:\\Conges\\Conges\\Shared\\Shared.Core\\Shared.Core.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

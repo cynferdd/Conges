@@ -2,7 +2,7 @@
 
 namespace Authentication.Domain
 {
-    public class Class1
+    public class User
     {
     }
 }
