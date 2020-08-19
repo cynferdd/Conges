@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication", "Authentication", "{DDB6A719-64CE-452B-8788-4E1469338468}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Domain", "Authentication\Authentication.Domain\Authentication.Domain.csproj", "{82136531-DD4D-4EFD-B138-3D6666DF0DBD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{82136531-DD4D-4EFD-B138-3D6666DF0DBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82136531-DD4D-4EFD-B138-3D6666DF0DBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82136531-DD4D-4EFD-B138-3D6666DF0DBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82136531-DD4D-4EFD-B138-3D6666DF0DBD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{82136531-DD4D-4EFD-B138-3D6666DF0DBD} = {DDB6A719-64CE-452B-8788-4E1469338468}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E4BB077B-4BFA-409D-8CB2-52A56E5F74F7}
+	EndGlobalSection
+EndGlobal
