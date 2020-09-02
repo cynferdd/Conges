@@ -7,6 +7,6 @@ namespace Authentication.Domain.PrimaryPorts
 {
     public interface IAuthenticationUseCase
     {
-        Task<bool> IsValidAsync(AuthenticationToken token);
+        Task<bool> IsValidAsync(AuthenticationToken token, DateTime now);
     }
 }

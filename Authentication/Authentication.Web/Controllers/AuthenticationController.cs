@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
+using Authentication.Domain.PrimaryPorts;
+using Authentication.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,10 +13,25 @@ namespace Authentication.Web.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        
-        [HttpGet("/{token}")]
-        public IActionResult Get([FromQuery] string token)
+        private readonly IAuthenticationUseCase _authenticationUseCase;
+        public AuthenticationController(IAuthenticationUseCase authenticationUseCase)
         {
+            _authenticationUseCase = authenticationUseCase;
+        }
+
+        [HttpGet("/{token}")]
+        public Task<IActionResult> GetAsync([FromQuery] string token) => 
+            GetAsync(token, DateTime.Now);
+
+
+        public async Task<IActionResult> GetAsync(string token, DateTime now)
+        {
+            var authenticationToken = new AuthenticationToken(new Guid(token));
+            var isValid = await _authenticationUseCase.IsValidAsync(authenticationToken, now);
+            if (isValid)
+            {
+                return Ok();
+            }
             return Unauthorized();
         }
     }
