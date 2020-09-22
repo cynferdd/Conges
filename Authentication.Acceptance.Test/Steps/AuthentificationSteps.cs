@@ -55,5 +55,11 @@ namespace Authentication.Acceptance.Test.Steps
                 .Returns(expirationDate);
             return repository;
         }
+
+        [Then(@"on recoit un code Http Non Autorisé")]
+        public void AlorsOnRecoitUnCodeHttpNonAutorise()
+        {
+            Check.That(_actual).IsInstanceOf<UnauthorizedResult>();
+        }
     }
 }
