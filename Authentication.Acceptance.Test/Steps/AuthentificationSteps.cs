@@ -36,7 +36,8 @@ namespace Authentication.Acceptance.Test.Steps
             var controller =
                 new AuthenticationController(
                     new AuthenticationUseCase(
-                        BuildRepository(_expirationDate)));
+                        AuthenticationUtility.BuildTokenRepository(_expirationDate),
+                        AuthenticationUtility.BuildCredentialsRepository(null)));
 
             _actual = await controller.GetAsync(Guid.Empty.ToString(), _now);
         }
@@ -47,14 +48,7 @@ namespace Authentication.Acceptance.Test.Steps
             Check.That(_actual).IsInstanceOf<OkResult>();
         }
 
-        private static ITokenRepository BuildRepository(DateTime? expirationDate)
-        {
-            var repository = Substitute.For<ITokenRepository>();
-            repository
-                .GetExpirationDateAsync(Arg.Any<AuthenticationToken>())
-                .Returns(expirationDate);
-            return repository;
-        }
+        
 
         [Then(@"on recoit un code Http Non Autorisé")]
         public void AlorsOnRecoitUnCodeHttpNonAutorise()

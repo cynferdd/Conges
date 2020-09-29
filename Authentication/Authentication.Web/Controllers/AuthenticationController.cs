@@ -6,6 +6,7 @@ using Authentication.Domain.PrimaryPorts;
 using Authentication.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Core.Exceptions;
 
 namespace Authentication.Web.Controllers
 {
@@ -33,6 +34,21 @@ namespace Authentication.Web.Controllers
                 return Ok();
             }
             return Unauthorized();
+        }
+
+        [HttpPost()]
+        public async Task<IActionResult> ConnectAsync([FromBody] AuthenticationDto authenticationDto)
+        {
+            try
+            {
+                return Ok(await _authenticationUseCase.ConnectAsync(authenticationDto.Login, authenticationDto.Password));
+            }
+            catch (NotFoundException<string>)
+            {
+
+                return NotFound();
+            }
+            
         }
     }
 
