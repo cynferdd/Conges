@@ -48,6 +48,18 @@ namespace Authentication.Web.Controllers
 
                 return NotFound();
             }
+            catch (ArgumentNullException e)
+            {
+                return BadRequest(string.Format("{0} obligatoire", e.ParamName));
+            }
+            catch (AccessViolationException)
+            {
+                return BadRequest("Compte bloqué");
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(e.Message);
+            }
             
         }
     }

@@ -21,8 +21,41 @@ namespace Authentication.Domain.UseCases
 
         public async Task<AuthenticationToken> ConnectAsync(string login, string password)
         {
+            CheckNullParameter(login, "Login");
+
+            CheckNullParameter(password, "Mot de passe");
+
             var user = await _credentialsRepository.GetUserAsync(login);
-            throw new NotFoundException<string>(login);
+
+            if (user is null)
+            {
+                throw new NotFoundException<string>(login);
+            }
+
+            if (user.EstCompteBloque)
+            {
+                throw new AccessViolationException();
+            }
+
+            if (password != user.Password)
+            {
+                user.NbTentativesConnexions++;
+                await _credentialsRepository.SaveUserAsync(user);
+                throw new ArgumentException("Mot de passe erroné");
+            }
+
+            user.NbTentativesConnexions = 0;
+            await _credentialsRepository.SaveUserAsync(user);
+            return new AuthenticationToken(Guid.NewGuid());
+            
+        }
+
+        private static void CheckNullParameter(string parameter, string parameterName)
+        {
+            if (parameter is null || parameter == "")
+            {
+                throw new ArgumentNullException(parameterName);
+            }
         }
 
         public async Task<bool> IsValidAsync(AuthenticationToken token, DateTime now)

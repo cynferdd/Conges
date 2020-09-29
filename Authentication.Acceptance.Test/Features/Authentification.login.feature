@@ -9,6 +9,9 @@ Scénario: Authentification correcte
 	Et un mot de passe valide correspondant
 	Quand on se connecte
 	Alors on recoit un token d'authentification valide
+	Et le nombre de connexion est à 0
+	Et l'utilisateur a été sauvegardé
+
 
 Scénario: Authentification incorrecte car login inexistant
 	Etant donné un login inexistant
@@ -21,12 +24,17 @@ Scénario: Authentification incorrecte car mot de passe invalide
 	Et un mot de passe erroné
 	Quand on se connecte
 	Alors on reçoit un BadRequest Mot de passe erroné
+	Et l'utilisateur a été sauvegardé
+	Et le nombre de connexion est à 1
 
 Scénario: Compte bloqué au bout de 3 mauvaises authentifications
 	Etant donné un login existant
 	Et un mot de passe erroné
 	Quand on se connecte 3 fois
 	Alors on reçoit un BadRequest Mot de passe erroné
+	Et le compte est bloqué
+	Et l'utilisateur a été sauvegardé
+	Et le nombre de connexion est à 3
 
 Scénario: Authentification incorrecte car le login est vide
 	Etant donné un login vide

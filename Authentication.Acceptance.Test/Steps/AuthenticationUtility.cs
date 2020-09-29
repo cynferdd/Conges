@@ -4,6 +4,7 @@ using NSubstitute;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Authentication.Acceptance.Test.Steps
 {
@@ -24,6 +25,7 @@ namespace Authentication.Acceptance.Test.Steps
             repository
                 .GetUserAsync(Arg.Any<string>())
                 .Returns(user);
+            
             return repository;
         }
     }

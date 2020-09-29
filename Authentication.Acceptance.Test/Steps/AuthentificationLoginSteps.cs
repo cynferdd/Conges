@@ -1,8 +1,10 @@
 ﻿using Authentication.Domain;
+using Authentication.Domain.SecondaryPorts;
 using Authentication.Domain.UseCases;
 using Authentication.Web.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using NFluent;
+using NSubstitute;
 using System;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
@@ -14,8 +16,9 @@ namespace Authentication.Acceptance.Test.Steps
     {
         private string _login;
         private string _password;
-        private bool _estCompteBloque = false;
-        
+        private int _nbTentativesConnexions = 0;
+        private User _user = null;
+        private ICredentialsRepository _credentialRepository;
 
         private IActionResult _actual;
         private const string _validLogin = "UtilisateurExistant";
@@ -66,22 +69,29 @@ namespace Authentication.Acceptance.Test.Steps
         [Given(@"le compte est bloqué")]
         public void SoitLeCompteEstBloque()
         {
-            this._estCompteBloque = true;
+            this._nbTentativesConnexions = 3;
         }
         
         [When(@"on se connecte")]
         public async Task QuandOnSeConnecte()
         {
-            var user = new User()
+
+            
+            if (_login == _validLogin)
             {
-                Login = _validLogin,
-                Password = _validPassword
-            };
+                _user = new User()
+                {
+                    Login = _login,
+                    Password = _validPassword,
+                    NbTentativesConnexions = _nbTentativesConnexions
+                };
+            }
+            _credentialRepository = AuthenticationUtility.BuildCredentialsRepository(_user);
             var controller =
                 new AuthenticationController(
                     new AuthenticationUseCase(
                         AuthenticationUtility.BuildTokenRepository(new DateTime(2049, 05, 17)),
-                        AuthenticationUtility.BuildCredentialsRepository(user)));
+                        _credentialRepository));
 
             var authenticationDto = new AuthenticationDto() 
             { 
@@ -98,13 +108,34 @@ namespace Authentication.Acceptance.Test.Steps
             for (int i = 0; i < p0; i++)
             {
                 await QuandOnSeConnecte();
+                _nbTentativesConnexions++;
             }
         }
-        
+        [Then(@"l'utilisateur a été sauvegardé")]
+        public void AlorsLUtilisateurAEteSauvegarde()
+        {
+            _credentialRepository
+                .Received()
+                .SaveUserAsync(_user);
+        }
+
+        [Then(@"le nombre de connexion est à (.*)")]
+        public void AlorsLeNombreDeConnexionEstA(int p0)
+        {
+            Check.That(_user.NbTentativesConnexions).Equals(p0);
+        }
+
+        [Then(@"le compte est bloqué")]
+        public void AlorsLeCompteEstBloque()
+        {
+            Check.That(_user.EstCompteBloque);
+        }
+
+
         [Then(@"on recoit un token d'authentification valide")]
         public void AlorsOnRecoitUnTokenDAuthentificationValide()
         {
-            Check.That(_actual).IsInstanceOf<OkResult>();
+            Check.That(_actual).IsInstanceOf<OkObjectResult>();
         }
         
         [Then(@"on ne recoit pas de token d'authentification")]
@@ -113,13 +144,17 @@ namespace Authentication.Acceptance.Test.Steps
             Check.That(_actual).IsInstanceOf<NotFoundResult>();
         }
         
-        [Then(@"on ne recoit pas de token d'authentification et le compte est bloqué")]
-        public void AlorsOnNeRecoitPasDeTokenDAuthentificationEtLeCompteEstBloque()
+        [Then(@"on reçoit un BadRequest Mot de passe erroné et le compte devient bloqué")]
+        public void AlorsOnRecoitUnBadRequestMotDePasseErroneEtLeCompteDevientBloque()
         {
-            Check.That(_actual).IsInstanceOf<NotFoundResult>();
-            // ???
-            // Profit
+            Check.That(_actual).IsInstanceOf<BadRequestObjectResult>();
+            var result = (BadRequestObjectResult)_actual;
+            Check.That(result.Value).Equals("Mot de passe erroné");
+
+            Check.That(_user.EstCompteBloque);
+            
         }
+
 
         [Then(@"on reçoit un NotFound")]
         public void AlorsOnRecoitUnNotFound()
