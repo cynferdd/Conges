@@ -16,11 +16,13 @@ namespace AccountManagement.Web.Controllers
     {
         private readonly IGetAccountsUseCase getAccountsUseCase;
         private readonly IArchiveAccountUseCase archiveAccountUseCase;
+        private readonly ICreateAccountUseCase createAccountUseCase;
 
-        public AccountController(IGetAccountsUseCase getAccountsUseCase, IArchiveAccountUseCase archiveAccountUseCase)
+        public AccountController(IGetAccountsUseCase getAccountsUseCase, IArchiveAccountUseCase archiveAccountUseCase, ICreateAccountUseCase createAccountUseCase)
         {
             this.getAccountsUseCase = getAccountsUseCase;
             this.archiveAccountUseCase = archiveAccountUseCase;
+            this.createAccountUseCase = createAccountUseCase;
         }
 
         [HttpGet("{id}")]
@@ -59,6 +61,24 @@ namespace AccountManagement.Web.Controllers
                 return NotFound();
             }
             
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateAsync([FromBody]AccountDto accountToCreate)
+        {
+            try
+            {
+                await this.createAccountUseCase.CreateAsync(AccountDto.ToDomain(accountToCreate));
+                return Ok();
+            }
+            catch (InvalidOperationException)
+            {
+                return BadRequest();
+            }
+            catch (Exception e)
+            {
+                return ValidationProblem(e.Message);
+            }
         }
     }
 }

@@ -62,7 +62,7 @@ namespace AccountManagement.Acceptance.Test.Steps
             this.archiveDateBeforeSave = this.existingAccount?.ArchiveDate;
             var archiveUseCase = new ArchiveAccountUseCase(repository);
 
-            var accountController = new AccountController(Substitute.For<IGetAccountsUseCase>(), archiveUseCase);
+            var accountController = new AccountController(Substitute.For<IGetAccountsUseCase>(), archiveUseCase, Substitute.For<ICreateAccountUseCase>());
             this.result = await accountController.ArchiveAsync(this.accountId);
             
         }

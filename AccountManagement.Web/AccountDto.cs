@@ -53,6 +53,36 @@ namespace AccountManagement.Web
             return accountDto;
         }
 
-        
+        internal static Account ToDomain(AccountDto accountToCreate)
+        {
+            if (
+                    string.IsNullOrEmpty(accountToCreate.Frequency) &&
+                    accountToCreate.AcquisitionStart == null &&
+                    accountToCreate.AcquisitionEnd == null &&
+                    accountToCreate.AmountGainedPerFrequency == null &&
+                    accountToCreate.ConsommationStart == null &&
+                    accountToCreate.ConsommationEnd == null
+                )
+            {
+                return new NoLeaveAccount 
+                {
+                    Id = accountToCreate.AccountNumber,
+                    Name = accountToCreate.Name
+
+                };
+            }
+
+            return new LeaveAccount
+            {
+                Id = accountToCreate.AccountNumber,
+                Name = accountToCreate.Name,
+                AcquisitionStart = accountToCreate.AcquisitionStart.Value,
+                AcquisitionEnd = accountToCreate.AcquisitionEnd.Value,
+                ConsommationStart = accountToCreate.ConsommationStart.Value,
+                ConsommationEnd = accountToCreate.ConsommationEnd.Value,
+                AmountGainedPerFrequency = accountToCreate.AmountGainedPerFrequency.Value,
+                Frequency = (Frequency)Enum.Parse(typeof(Frequency), accountToCreate.Frequency)
+            };
+        }
     }
 }
