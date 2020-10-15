@@ -17,10 +17,10 @@ namespace AccountManagement.Acceptance.Test.Steps
     public class AuthentificationSteps
     {
         private Account existingAccount;
-        private AccountDto resultingAccount;
         private int accountId;
         private IAccountRepository repository;
         private IActionResult result;
+        private DateTime? archiveDateBeforeSave;
 
         [Given(@"un compte qui n'existe pas")]
 
@@ -59,15 +59,11 @@ namespace AccountManagement.Acceptance.Test.Steps
         {
             this.repository = Substitute.For<IAccountRepository>();
             this.repository.GetAsync(this.accountId).Returns(this.existingAccount);
+            this.archiveDateBeforeSave = this.existingAccount?.ArchiveDate;
             var archiveUseCase = new ArchiveAccountUseCase(repository);
 
             var accountController = new AccountController(Substitute.For<IGetAccountsUseCase>(), archiveUseCase);
             this.result = await accountController.ArchiveAsync(this.accountId);
-            var getAccountResult = accountController.GetAsync(this.accountId);
-            if (getAccountResult.Result.GetType() == typeof(OkObjectResult))
-            {
-                this.resultingAccount = (getAccountResult.Result as OkObjectResult).Value as AccountDto;
-            }
             
         }
         
@@ -87,13 +83,13 @@ namespace AccountManagement.Acceptance.Test.Steps
         [Then(@"la date d'archivage reste la même")]
         public void AlorsLaDateDArchivageResteLaMeme()
         {
-            Check.That(resultingAccount.ArchiveDate).IsEqualTo(existingAccount.ArchiveDate);
+            Check.That(this.archiveDateBeforeSave).IsEqualTo(existingAccount.ArchiveDate);
         }
         
         [Then(@"le compte est archivé")]
         public void AlorsLeCompteEstArchive()
         {
-            Check.That(resultingAccount.ArchiveDate).IsNotNull();
+            Check.That(existingAccount.ArchiveDate).IsNotNull();
         }
         
 
@@ -101,7 +97,10 @@ namespace AccountManagement.Acceptance.Test.Steps
         [Then(@"la date d'archivage est modifiée")]
         public void AlorsLaDateDArchivageEstModifiee()
         {
-            Check.That(resultingAccount.ArchiveDate).IsNotEqualTo(existingAccount.ArchiveDate);
+            Check.That(this.archiveDateBeforeSave).IsNotEqualTo(existingAccount.ArchiveDate);
+            repository
+                .Received()
+                .SaveAsync(this.existingAccount);
         }
 
 

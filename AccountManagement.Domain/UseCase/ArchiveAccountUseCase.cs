@@ -1,5 +1,6 @@
 ﻿using AccountManagement.Domain.PrimaryPort;
 using AccountManagement.Domain.SecondaryPort;
+using Shared.Core.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,8 +18,17 @@ namespace AccountManagement.Domain.UseCase
         }
         public async Task ArchiveAsync(int id)
         {
-            throw new NotImplementedException();
-            //await accountRepository.ArchiveAsync(id);
+            var account = await accountRepository.GetAsync(id);
+            if (account is null)
+            {
+                throw new NotFoundException<int>(id);
+            }
+            if (account.ArchiveDate is null)
+            {
+                account.ArchiveDate = DateTime.Now;
+                await accountRepository.SaveAsync(account);
+            }
+            
         }
     }
 }

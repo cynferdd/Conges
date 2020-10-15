@@ -29,6 +29,10 @@ namespace AccountManagement.Web
 
         public static AccountDto FromDomain(Account account)
         {
+            if (account is null)
+            {
+                return new AccountDto();
+            }
             var accountDto =  new AccountDto
             {
                 AccountNumber = account.Id,
