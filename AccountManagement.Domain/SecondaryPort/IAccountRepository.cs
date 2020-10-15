@@ -8,5 +8,9 @@ namespace AccountManagement.Domain.SecondaryPort
     public interface IAccountRepository
     {
         Task<IReadOnlyCollection<Account>> GetAsync();
+
+        Task<Account?> GetAsync(int id);
+
+        Task SaveAsync(Account account);
     }
 }

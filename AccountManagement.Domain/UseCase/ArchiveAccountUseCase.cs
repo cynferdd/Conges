@@ -7,22 +7,18 @@ using System.Threading.Tasks;
 
 namespace AccountManagement.Domain.UseCase
 {
-    public class GetAccountsUseCase : IGetAccountsUseCase
+    public class ArchiveAccountUseCase : IArchiveAccountUseCase
     {
         private readonly IAccountRepository accountRepository;
 
-        public GetAccountsUseCase(IAccountRepository accountRepository)
+        public ArchiveAccountUseCase(IAccountRepository accountRepository)
         {
             this.accountRepository = accountRepository;
         }
-        public async Task<IReadOnlyCollection<Account>> GetAsync()
+        public async Task ArchiveAsync(int id)
         {
-            return await accountRepository.GetAsync();
-        }
-
-        public async Task<Account?> GetAsync(int accountId)
-        {
-            return await accountRepository.GetAsync(accountId);
+            throw new NotImplementedException();
+            //await accountRepository.ArchiveAsync(id);
         }
     }
 }

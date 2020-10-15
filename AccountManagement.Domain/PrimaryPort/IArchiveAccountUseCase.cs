@@ -5,10 +5,8 @@ using System.Threading.Tasks;
 
 namespace AccountManagement.Domain.PrimaryPort
 {
-    public interface IGetAccountsUseCase
+    public interface IArchiveAccountUseCase
     {
-        Task<IReadOnlyCollection<Account>> GetAsync();
-
-        Task<Account?> GetAsync(int accountId);
+        Task ArchiveAsync(int id);
     }
 }

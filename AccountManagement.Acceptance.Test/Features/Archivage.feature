@@ -12,7 +12,7 @@ Scénario: Archivage de compte déjà archivé
 	Et ce compte est déjà archivé
 	Quand on l'archive
 	Alors on recoit un code Http Ok
-	Et Le compte est archivé
+	Et le compte est archivé
 	Et la date d'archivage reste la même
 
 Scénario: Archivage de compte non archivé
@@ -21,4 +21,4 @@ Scénario: Archivage de compte non archivé
 	Quand on l'archive
 	Alors on recoit un code Http Ok
 	Et le compte est archivé
-	Et la date d'archivage est la date du jour et l'heure actuelle
+	Et la date d'archivage est modifiée
