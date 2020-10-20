@@ -4,6 +4,6 @@ namespace AccountManagement.Domain.PrimaryPort
 {
     public interface IArchiveAccountUseCase
     {
-        Task ArchiveAsync(int id);
+        Task ArchiveAsync(AccountId id);
     }
 }

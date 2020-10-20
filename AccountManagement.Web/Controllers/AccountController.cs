@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using AccountManagement.Domain;
 using AccountManagement.Domain.PrimaryPort;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Core.Exceptions;
@@ -25,7 +26,7 @@ namespace AccountManagement.Web.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAsync([FromQuery] int id)
         {
-            var account = await this.getAccountsUseCase.GetAsync(id);
+            var account = await this.getAccountsUseCase.GetAsync(new AccountId(id));
 
             var dtoAccount = AccountDto.FromDomain(account);
 
@@ -50,7 +51,7 @@ namespace AccountManagement.Web.Controllers
         {
             try
             {
-                await this.archiveAccountUseCase.ArchiveAsync(id);
+                await this.archiveAccountUseCase.ArchiveAsync(new AccountId(id));
                 return Ok();
             }
             catch (NotFoundException<int>)

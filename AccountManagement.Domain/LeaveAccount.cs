@@ -4,7 +4,7 @@ namespace AccountManagement.Domain
 {
     public class LeaveAccount : Account
     {
-        public LeaveAccount(int id, string name)
+        public LeaveAccount(AccountId id, string name)
             :base (id, name)
         {
 

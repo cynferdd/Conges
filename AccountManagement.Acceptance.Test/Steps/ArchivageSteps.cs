@@ -16,7 +16,7 @@ namespace AccountManagement.Acceptance.Test.Steps
     public class AuthentificationSteps
     {
         private Account existingAccount;
-        private int accountId;
+        private AccountId accountId;
         private IAccountRepository repository;
         private IActionResult result;
         private DateTime? archiveDateBeforeSave;
@@ -25,14 +25,14 @@ namespace AccountManagement.Acceptance.Test.Steps
 
         public void SoitUnCompteQuiNExistePas()
         {
-            this.accountId = 0;
+            this.accountId = new AccountId(0);
             this.existingAccount = null;
         }
         
         [Given(@"un compte qui existe")]
         public void SoitUnCompteQuiExiste()
         {
-            this.accountId = 1;
+            this.accountId = new AccountId(1);
             this.existingAccount = new LeaveAccount(accountId, "nom");
 
         }
@@ -58,7 +58,7 @@ namespace AccountManagement.Acceptance.Test.Steps
             var archiveUseCase = new ArchiveAccountUseCase(repository);
 
             var accountController = new AccountController(Substitute.For<IGetAccountsUseCase>(), archiveUseCase, Substitute.For<ICreateAccountUseCase>());
-            this.result = await accountController.ArchiveAsync(this.accountId);
+            this.result = await accountController.ArchiveAsync((int)this.accountId);
             
         }
         

@@ -14,12 +14,12 @@ namespace AccountManagement.Domain.UseCase
         {
             this.accountRepository = accountRepository;
         }
-        public async Task ArchiveAsync(int id)
+        public async Task ArchiveAsync(AccountId id)
         {
             var account = await accountRepository.GetAsync(id);
             if (account is null)
             {
-                throw new NotFoundException<int>(id);
+                throw new NotFoundException<AccountId>(id);
             }
             if (account.ArchiveDate is null)
             {

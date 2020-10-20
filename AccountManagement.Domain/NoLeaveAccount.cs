@@ -2,7 +2,7 @@
 {
     public class NoLeaveAccount : Account
     {
-        public NoLeaveAccount(int id, string name)
+        public NoLeaveAccount(AccountId id, string name)
             : base(id, name)
         {
 

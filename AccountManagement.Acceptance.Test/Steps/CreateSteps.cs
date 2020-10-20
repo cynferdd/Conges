@@ -26,37 +26,37 @@ namespace AccountManagement.Acceptance.Test.Steps
         [Given(@"un compte que l on souhaite créer avec un id (.*)")]
         public void SoitUnCompteQueLOnSouhaiteCreerAvecUnId(int id)
         {
-            this.futureAccount = new LeaveAccount(id, "");
+            this.futureAccount = new LeaveAccount(new AccountId(id), "");
         }
         
         [Given(@"un autre compte déjà existant avec un id (.*)")]
         public void SoitUnAutreCompteDejaExistantAvecUnId(int id)
         {
-            this.existingAccountFromId = new LeaveAccount(id, "existant");
+            this.existingAccountFromId = new LeaveAccount(new AccountId(id), "existant");
         }
         
         [Given(@"un compte que l on souhaite créer avec pour nom '(.*)'")]
         public void SoitUnCompteQueLOnSouhaiteCreerAvecPourNom(string name)
         {
-            this.futureAccount = new LeaveAccount(3, name);
+            this.futureAccount = new LeaveAccount(new AccountId(3), name);
         }
         
         [Given(@"un autre compte déjà existant avec pour nom '(.*)'")]
         public void SoitUnAutreCompteDejaExistantAvecPourNom(string name)
         {
-            this.existingAccountFromName = new NoLeaveAccount(4, name);
+            this.existingAccountFromName = new NoLeaveAccount(new AccountId(4), name);
         }
         
         [Given(@"un compte NoLeave non existant")]
         public void SoitUnCompteNoLeaveNonExistant()
         {
-            this.futureAccount = new NoLeaveAccount(10, "télétravail");
+            this.futureAccount = new NoLeaveAccount(new AccountId(10), "télétravail");
         }
         
         [Given(@"un compte Leave non existant")]
         public void SoitUnCompteLeaveNonExistant()
         {
-            this.futureAccount = new LeaveAccount(11, "SickLeave")
+            this.futureAccount = new LeaveAccount(new AccountId(11), "SickLeave")
             {
                 AcquisitionStart = new DateTime(2020, 01, 01),
                 AcquisitionEnd = new DateTime(2020, 12, 31),
@@ -70,10 +70,9 @@ namespace AccountManagement.Acceptance.Test.Steps
         public async Task QuandOnVeutCreerLeCompte()
         {
             this.repository = Substitute.For<IAccountRepository>();
-            this.repository.GetAsync(Arg.Any<int>()).Returns(this.existingAccountFromId);
-            this.repository.GetAsync(Arg.Any<string>()).Returns(this.existingAccountFromName);
-            
-            this.repository.IdExists(Arg.Any<int>()).Returns((existingAccountFromId != null));
+            this.repository.GetAsync(Arg.Any<AccountId>()).Returns(this.existingAccountFromId);
+
+            this.repository.IdExists(Arg.Any<AccountId>()).Returns((existingAccountFromId != null));
             
             this.repository.NameExists(Arg.Any<string>()).Returns((existingAccountFromName != null));
 

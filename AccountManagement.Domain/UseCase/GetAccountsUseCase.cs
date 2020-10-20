@@ -18,7 +18,7 @@ namespace AccountManagement.Domain.UseCase
             return await accountRepository.GetAsync();
         }
 
-        public async Task<Account?> GetAsync(int accountId)
+        public async Task<Account?> GetAsync(AccountId accountId)
         {
             return await accountRepository.GetAsync(accountId);
         }

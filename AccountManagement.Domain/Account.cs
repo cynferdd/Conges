@@ -3,9 +3,9 @@ using System;
 
 namespace AccountManagement.Domain
 {
-    public abstract class Account : Entity<int>
+    public abstract class Account : Entity<AccountId>
     {
-        protected Account(int id, string name)
+        protected Account(AccountId id, string name)
             :base(id) 
         {
             Name = name;

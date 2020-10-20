@@ -7,11 +7,9 @@ namespace AccountManagement.Domain.SecondaryPort
     {
         Task<IReadOnlyCollection<Account>> GetAsync();
 
-        Task<Account?> GetAsync(int id);
+        Task<Account?> GetAsync(AccountId id);
 
-        Task<Account?> GetAsync(string name);
-
-        Task<bool> IdExists(int id);
+        Task<bool> IdExists(AccountId id);
         Task<bool> NameExists(string name);
         
         Task SaveAsync(Account account);

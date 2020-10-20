@@ -28,7 +28,7 @@ namespace AccountManagement.Web
         {
             var accountDto =  new AccountDto
             {
-                AccountNumber = account.Id,
+                AccountNumber = (int)account.Id,
                 Name = account.Name,
                 ArchiveDate = account.ArchiveDate
             };
@@ -57,10 +57,10 @@ namespace AccountManagement.Web
                     this.ConsommationEnd == null
                 )
             {
-                return new NoLeaveAccount (this.AccountNumber, this.Name);
+                return new NoLeaveAccount (new AccountId(this.AccountNumber), this.Name);
             }
 
-            return new LeaveAccount(this.AccountNumber, this.Name)
+            return new LeaveAccount(new AccountId(this.AccountNumber), this.Name)
             {
                 AcquisitionStart = this.AcquisitionStart.Value,
                 AcquisitionEnd = this.AcquisitionEnd.Value,
