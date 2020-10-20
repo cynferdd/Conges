@@ -17,13 +17,13 @@ namespace AccountManagement.Domain.UseCase
         public async Task CreateAsync(Account account)
         {
             var idExists = await this.accountRepository.IdExists(account.Id);
-            if (!idExists)
+            if (idExists)
             {
                 throw new InvalidOperationException();
             }
 
             var nameExists = await this.accountRepository.NameExists(account.Name);
-            if (!nameExists)
+            if (nameExists)
             {
                 throw new InvalidOperationException();
             }

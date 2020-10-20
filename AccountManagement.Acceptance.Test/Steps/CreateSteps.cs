@@ -72,6 +72,10 @@ namespace AccountManagement.Acceptance.Test.Steps
             this.repository = Substitute.For<IAccountRepository>();
             this.repository.GetAsync(Arg.Any<int>()).Returns(this.existingAccountFromId);
             this.repository.GetAsync(Arg.Any<string>()).Returns(this.existingAccountFromName);
+            
+            this.repository.IdExists(Arg.Any<int>()).Returns((existingAccountFromId != null));
+            
+            this.repository.NameExists(Arg.Any<string>()).Returns((existingAccountFromName != null));
 
             var createUseCase = new CreateAccountUseCase(repository);
 
