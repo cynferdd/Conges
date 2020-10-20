@@ -19,12 +19,14 @@ namespace AccountManagement.Acceptance.Test.Features
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.4.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+    [Xunit.TraitAttribute("Category", "CreationCompte")]
     public partial class CreateFeature : object, Xunit.IClassFixture<CreateFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
-        private string[] _featureTags = ((string[])(null));
+        private string[] _featureTags = new string[] {
+                "CreationCompte"};
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
@@ -41,7 +43,8 @@ namespace AccountManagement.Acceptance.Test.Features
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("fr-FR"), "Features", "Create", "  On doit pouvoir créer un compte de type \"leave\" ou \"no leave\", \r\n  tant qu\'il n" +
-                    "\'existe pas déjà un autre compte avec le même Id ou le même nom", ProgrammingLanguage.CSharp, ((string[])(null)));
+                    "\'existe pas déjà un autre compte avec le même Id ou le même nom", ProgrammingLanguage.CSharp, new string[] {
+                        "CreationCompte"});
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -84,14 +87,12 @@ namespace AccountManagement.Acceptance.Test.Features
         [Xunit.SkippableFactAttribute(DisplayName="Creation de compte déjà existant (id)")]
         [Xunit.TraitAttribute("FeatureTitle", "Create")]
         [Xunit.TraitAttribute("Description", "Creation de compte déjà existant (id)")]
-        [Xunit.TraitAttribute("Category", "CreationCompte")]
         public virtual void CreationDeCompteDejaExistantId()
         {
-            string[] tagsOfScenario = new string[] {
-                    "CreationCompte"};
+            string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Creation de compte déjà existant (id)", null, tagsOfScenario, argumentsOfScenario);
-#line 6
+#line 7
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -111,16 +112,16 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 7
+#line 8
   testRunner.Given("un compte que l on souhaite créer avec un id 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Etant donné ");
 #line hidden
-#line 8
+#line 9
   testRunner.And("un autre compte déjà existant avec un id 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Et ");
 #line hidden
-#line 9
+#line 10
   testRunner.When("on veut créer le compte", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quand ");
 #line hidden
-#line 10
+#line 11
   testRunner.Then("on recoit un code Http BadRequest", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Alors ");
 #line hidden
             }
@@ -135,7 +136,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Création de compte déjà existant (nom)", null, tagsOfScenario, argumentsOfScenario);
-#line 12
+#line 13
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -155,16 +156,16 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 13
+#line 14
  testRunner.Given("un compte que l on souhaite créer avec pour nom \'congé\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Etant donné ");
 #line hidden
-#line 14
+#line 15
  testRunner.And("un autre compte déjà existant avec pour nom \'congé\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Et ");
 #line hidden
-#line 15
+#line 16
  testRunner.When("on veut créer le compte", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quand ");
 #line hidden
-#line 16
+#line 17
  testRunner.Then("on recoit un code Http BadRequest", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Alors ");
 #line hidden
             }
@@ -179,7 +180,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Création de compte NoLeave non existant", null, tagsOfScenario, argumentsOfScenario);
-#line 18
+#line 19
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -199,17 +200,17 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 19
+#line 20
  testRunner.Given("un compte NoLeave non existant", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Etant donné ");
 #line hidden
-#line 20
+#line 21
  testRunner.When("on veut créer le compte", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quand ");
 #line hidden
-#line 21
+#line 22
  testRunner.Then("il est bien enregistré", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Alors ");
 #line hidden
-#line 22
- testRunner.And("on recoit un code Http Ok pour la creation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Et ");
+#line 23
+ testRunner.And("on recoit un code Http Ok", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Et ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -223,7 +224,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Création de compte Leave non existant", null, tagsOfScenario, argumentsOfScenario);
-#line 24
+#line 25
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -243,17 +244,17 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 25
+#line 26
  testRunner.Given("un compte Leave non existant", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Etant donné ");
 #line hidden
-#line 26
+#line 27
  testRunner.When("on veut créer le compte", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Quand ");
 #line hidden
-#line 27
+#line 28
  testRunner.Then("il est bien enregistré", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Alors ");
 #line hidden
-#line 28
- testRunner.And("on recoit un code Http Ok pour la creation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Et ");
+#line 29
+ testRunner.And("on recoit un code Http Ok", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Et ");
 #line hidden
             }
             this.ScenarioCleanup();

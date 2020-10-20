@@ -15,6 +15,7 @@ using TechTalk.SpecFlow;
 namespace AccountManagement.Acceptance.Test.Steps
 {
     [Binding]
+    [Scope(Tag="CreationCompte")]
     public class CreateSteps
     {
         private Account futureAccount;
@@ -93,8 +94,8 @@ namespace AccountManagement.Acceptance.Test.Steps
                 .Received()
                 .SaveAsync(this.futureAccount);
         }
-
-        [Then(@"on recoit un code Http Ok pour la creation")]
+        
+        [Then(@"on recoit un code Http Ok")]
         public void AlorsOnRecoitUnCodeHttpOkPourLaCreation()
         {
             Check.That(result).IsInstanceOf<OkResult>();
