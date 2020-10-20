@@ -1,13 +1,21 @@
-﻿using System;
+﻿using Shared.Core.DomainModeling;
+using System;
 
 namespace AccountManagement.Domain
 {
-    public abstract class Account
+    public abstract class Account : Entity<int>
     {
-        public int Id { get; set; }
+        protected Account(int id, string name)
+            :base(id) 
+        {
+            Name = name;
+        }
+
 
         public string Name { get; set; }
 
         public DateTime? ArchiveDate { get; set; }
+
+        
     }
 }

@@ -19,10 +19,10 @@ Scénario: Création de compte NoLeave non existant
 	Etant donné un compte NoLeave non existant
 	Quand on veut créer le compte
 	Alors il est bien enregistré
-	Et on recoit un code Http Ok
+	Et on recoit un code Http Ok pour la creation
 
 Scénario: Création de compte Leave non existant
 	Etant donné un compte Leave non existant
 	Quand on veut créer le compte
 	Alors il est bien enregistré
-	Et on recoit un code Http Ok
+	Et on recoit un code Http Ok pour la creation

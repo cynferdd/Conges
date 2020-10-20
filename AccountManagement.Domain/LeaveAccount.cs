@@ -6,6 +6,12 @@ namespace AccountManagement.Domain
 {
     public class LeaveAccount : Account
     {
+        public LeaveAccount(int id, string name)
+            :base (id, name)
+        {
+
+        }
+
         public DateTime AcquisitionStart { get; set; }
 
         public DateTime AcquisitionEnd { get; set; }

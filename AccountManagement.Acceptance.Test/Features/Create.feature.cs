@@ -209,7 +209,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Then("il est bien enregistré", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Alors ");
 #line hidden
 #line 22
- testRunner.And("on recoit un code Http Ok", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Et ");
+ testRunner.And("on recoit un code Http Ok pour la creation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Et ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -253,7 +253,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Then("il est bien enregistré", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Alors ");
 #line hidden
 #line 28
- testRunner.And("on recoit un code Http Ok", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Et ");
+ testRunner.And("on recoit un code Http Ok pour la creation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Et ");
 #line hidden
             }
             this.ScenarioCleanup();

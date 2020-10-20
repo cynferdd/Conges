@@ -18,66 +18,46 @@ namespace AccountManagement.Acceptance.Test.Steps
     public class CreateSteps
     {
         private Account futureAccount;
-        private LeaveAccount existingAccount;
+        private LeaveAccount existingAccountFromId;
         private IActionResult result;
         private IAccountRepository repository;
+        private NoLeaveAccount existingAccountFromName;
 
         [Given(@"un compte que l on souhaite créer avec un id (.*)")]
         public void SoitUnCompteQueLOnSouhaiteCreerAvecUnId(int id)
         {
-            this.futureAccount = new LeaveAccount()
-            {
-                Id = id
-            };
+            this.futureAccount = new LeaveAccount(id, "");
         }
         
         [Given(@"un autre compte déjà existant avec un id (.*)")]
         public void SoitUnAutreCompteDejaExistantAvecUnId(int id)
         {
-            this.existingAccount = new LeaveAccount()
-            {
-                Id = id,
-                Name = "existant"
-            };
+            this.existingAccountFromId = new LeaveAccount(id, "existant");
         }
         
         [Given(@"un compte que l on souhaite créer avec pour nom '(.*)'")]
         public void SoitUnCompteQueLOnSouhaiteCreerAvecPourNom(string name)
         {
-            this.futureAccount = new LeaveAccount()
-            {
-                Id = 3,
-                Name = name
-            };
+            this.futureAccount = new LeaveAccount(3, name);
         }
         
         [Given(@"un autre compte déjà existant avec pour nom '(.*)'")]
         public void SoitUnAutreCompteDejaExistantAvecPourNom(string name)
         {
-            this.futureAccount = new NoLeaveAccount()
-            {
-                Id = 4,
-                Name = name
-            };
+            this.existingAccountFromName = new NoLeaveAccount(4, name);
         }
         
         [Given(@"un compte NoLeave non existant")]
         public void SoitUnCompteNoLeaveNonExistant()
         {
-            this.futureAccount = new NoLeaveAccount()
-            {
-                Id = 10,
-                Name = "télétravail"
-            };
+            this.futureAccount = new NoLeaveAccount(10, "télétravail");
         }
         
         [Given(@"un compte Leave non existant")]
         public void SoitUnCompteLeaveNonExistant()
         {
-            this.futureAccount = new LeaveAccount()
+            this.futureAccount = new LeaveAccount(11, "SickLeave")
             {
-                Id = 11,
-                Name = "SickLeave",
                 AcquisitionStart = new DateTime(2020, 01, 01),
                 AcquisitionEnd = new DateTime(2020, 12, 31),
                 AmountGainedPerFrequency = 2,
@@ -90,8 +70,9 @@ namespace AccountManagement.Acceptance.Test.Steps
         public async Task QuandOnVeutCreerLeCompte()
         {
             this.repository = Substitute.For<IAccountRepository>();
-            this.repository.GetAsync(Arg.Any<int>()).Returns(this.existingAccount);
-            
+            this.repository.GetAsync(Arg.Any<int>()).Returns(this.existingAccountFromId);
+            this.repository.GetAsync(Arg.Any<string>()).Returns(this.existingAccountFromName);
+
             var createUseCase = new CreateAccountUseCase(repository);
 
             var accountController = new AccountController(Substitute.For<IGetAccountsUseCase>(), Substitute.For<IArchiveAccountUseCase>(), createUseCase);
@@ -112,5 +93,12 @@ namespace AccountManagement.Acceptance.Test.Steps
                 .Received()
                 .SaveAsync(this.futureAccount);
         }
+
+        [Then(@"on recoit un code Http Ok pour la creation")]
+        public void AlorsOnRecoitUnCodeHttpOkPourLaCreation()
+        {
+            Check.That(result).IsInstanceOf<OkResult>();
+        }
+
     }
 }

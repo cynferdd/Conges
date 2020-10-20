@@ -64,18 +64,11 @@ namespace AccountManagement.Web
                     accountToCreate.ConsommationEnd == null
                 )
             {
-                return new NoLeaveAccount 
-                {
-                    Id = accountToCreate.AccountNumber,
-                    Name = accountToCreate.Name
-
-                };
+                return new NoLeaveAccount (accountToCreate.AccountNumber, accountToCreate.Name);
             }
 
-            return new LeaveAccount
+            return new LeaveAccount(accountToCreate.AccountNumber, accountToCreate.Name)
             {
-                Id = accountToCreate.AccountNumber,
-                Name = accountToCreate.Name,
                 AcquisitionStart = accountToCreate.AcquisitionStart.Value,
                 AcquisitionEnd = accountToCreate.AcquisitionEnd.Value,
                 ConsommationStart = accountToCreate.ConsommationStart.Value,

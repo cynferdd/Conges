@@ -11,6 +11,8 @@ namespace AccountManagement.Domain.SecondaryPort
 
         Task<Account?> GetAsync(int id);
 
+        Task<Account?> GetAsync(string name);
+
         Task SaveAsync(Account account);
     }
 }

@@ -18,7 +18,18 @@ namespace AccountManagement.Domain.UseCase
 
         public async Task CreateAsync(Account account)
         {
-            throw new NotImplementedException();
+            var existingAccountFromId = await this.accountRepository.GetAsync(account.Id);
+            if (existingAccountFromId != null)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var existingAccountFromName = await this.accountRepository.GetAsync(account.Name);
+            if (existingAccountFromName != null)
+            {
+                throw new InvalidOperationException();
+            }
+            await accountRepository.SaveAsync(account);
         }
     }
 }
