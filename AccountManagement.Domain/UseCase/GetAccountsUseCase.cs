@@ -2,6 +2,7 @@
 using AccountManagement.Domain.SecondaryPort;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Shared.Core.Exceptions;
 
 namespace AccountManagement.Domain.UseCase
 {
@@ -18,9 +19,15 @@ namespace AccountManagement.Domain.UseCase
             return await accountRepository.GetAsync();
         }
 
-        public async Task<Account?> GetAsync(AccountId accountId)
+        public async Task<Account> GetAsync(AccountId accountId)
         {
-            return await accountRepository.GetAsync(accountId);
+            var account = await accountRepository.GetAsync(accountId);
+            if (account is null)
+            {
+                throw new NotFoundException<AccountId>(accountId);
+            }
+
+            return account;
         }
     }
 }

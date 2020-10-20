@@ -7,6 +7,6 @@ namespace AccountManagement.Domain.PrimaryPort
     {
         Task<IReadOnlyCollection<Account>> GetAsync();
 
-        Task<Account?> GetAsync(AccountId accountId);
+        Task<Account> GetAsync(AccountId accountId);
     }
 }
