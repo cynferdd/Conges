@@ -33,7 +33,7 @@ namespace AccountManagement.Acceptance.Test.Steps
         public void SoitUnCompteQuiExiste()
         {
             this.accountId = new AccountId(1);
-            this.existingAccount = new LeaveAccount(accountId, "nom");
+            this.existingAccount = new NoLeaveAccount(accountId, "nom");
 
         }
         

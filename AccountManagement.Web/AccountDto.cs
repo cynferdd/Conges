@@ -35,10 +35,10 @@ namespace AccountManagement.Web
 
             if (account is LeaveAccount leaveAccount)
             {
-                accountDto.AcquisitionStart = leaveAccount.AcquisitionStart;
-                accountDto.AcquisitionEnd = leaveAccount.AcquisitionEnd;
-                accountDto.ConsommationStart = leaveAccount.ConsommationStart;
-                accountDto.ConsommationEnd = leaveAccount.ConsommationEnd;
+                accountDto.AcquisitionStart = leaveAccount.AcquisitionPeriod.Start;
+                accountDto.AcquisitionEnd = leaveAccount.AcquisitionPeriod.End;
+                accountDto.ConsommationStart = leaveAccount.ConsommationPeriod.Start;
+                accountDto.ConsommationEnd = leaveAccount.ConsommationPeriod.End;
                 accountDto.AmountGainedPerFrequency = leaveAccount.AmountGainedPerFrequency;
                 accountDto.Frequency = leaveAccount.Frequency.ToString();
             }
@@ -60,15 +60,14 @@ namespace AccountManagement.Web
                 return new NoLeaveAccount (new AccountId(this.AccountNumber), this.Name);
             }
 
-            return new LeaveAccount(new AccountId(this.AccountNumber), this.Name)
-            {
-                AcquisitionStart = this.AcquisitionStart.Value,
-                AcquisitionEnd = this.AcquisitionEnd.Value,
-                ConsommationStart = this.ConsommationStart.Value,
-                ConsommationEnd = this.ConsommationEnd.Value,
-                AmountGainedPerFrequency = this.AmountGainedPerFrequency.Value,
-                Frequency = (Frequency)Enum.Parse(typeof(Frequency), this.Frequency)
-            };
+            return new LeaveAccount(
+                new AccountId(this.AccountNumber), 
+                this.Name,
+                new Period(AcquisitionStart.Value, AcquisitionEnd.Value),
+                new Period(ConsommationStart.Value, ConsommationEnd.Value),
+                AmountGainedPerFrequency.Value,
+                (Frequency)Enum.Parse(typeof(Frequency), this.Frequency)
+                );
         }
     }
 }

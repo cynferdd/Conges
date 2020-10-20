@@ -4,19 +4,24 @@ namespace AccountManagement.Domain
 {
     public class LeaveAccount : Account
     {
-        public LeaveAccount(AccountId id, string name)
+        public LeaveAccount(
+            AccountId id, 
+            string name, 
+            Period acquisitionPeriod,
+            Period consommationPeriod,
+            decimal amountGained,
+            Frequency frequency)
             :base (id, name)
         {
-
+            AcquisitionPeriod = acquisitionPeriod;
+            ConsommationPeriod = consommationPeriod;
+            AmountGainedPerFrequency = amountGained;
+            Frequency = frequency;
         }
 
-        public DateTime AcquisitionStart { get; set; }
+        public Period AcquisitionPeriod { get; set; }
 
-        public DateTime AcquisitionEnd { get; set; }
-
-        public DateTime ConsommationStart { get; set; }
-
-        public DateTime ConsommationEnd { get; set; }
+        public Period ConsommationPeriod { get; set; }
 
         public decimal AmountGainedPerFrequency { get; set; }
 

@@ -27,6 +27,7 @@ namespace AccountManagement.Domain.UseCase
             {
                 throw new InvalidOperationException();
             }
+            
             await accountRepository.SaveAsync(account);
         }
     }

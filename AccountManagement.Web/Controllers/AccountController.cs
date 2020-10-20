@@ -54,7 +54,7 @@ namespace AccountManagement.Web.Controllers
                 await this.archiveAccountUseCase.ArchiveAsync(new AccountId(id));
                 return Ok();
             }
-            catch (NotFoundException<int>)
+            catch (NotFoundException<AccountId>)
             {
                 return NotFound();
             }
