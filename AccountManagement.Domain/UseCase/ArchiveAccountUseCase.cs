@@ -2,8 +2,6 @@
 using AccountManagement.Domain.SecondaryPort;
 using Shared.Core.Exceptions;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AccountManagement.Domain.UseCase

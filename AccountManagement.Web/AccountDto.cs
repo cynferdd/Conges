@@ -1,8 +1,5 @@
 ﻿using AccountManagement.Domain;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AccountManagement.Web
 {
@@ -29,10 +26,6 @@ namespace AccountManagement.Web
 
         public static AccountDto FromDomain(Account account)
         {
-            if (account is null)
-            {
-                return new AccountDto();
-            }
             var accountDto =  new AccountDto
             {
                 AccountNumber = account.Id,
@@ -53,28 +46,28 @@ namespace AccountManagement.Web
             return accountDto;
         }
 
-        internal static Account ToDomain(AccountDto accountToCreate)
+        internal Account ToDomain()
         {
             if (
-                    string.IsNullOrEmpty(accountToCreate.Frequency) &&
-                    accountToCreate.AcquisitionStart == null &&
-                    accountToCreate.AcquisitionEnd == null &&
-                    accountToCreate.AmountGainedPerFrequency == null &&
-                    accountToCreate.ConsommationStart == null &&
-                    accountToCreate.ConsommationEnd == null
+                    string.IsNullOrEmpty(this.Frequency) ||
+                    this.AcquisitionStart == null ||
+                    this.AcquisitionEnd == null ||
+                    this.AmountGainedPerFrequency == null ||
+                    this.ConsommationStart == null ||
+                    this.ConsommationEnd == null
                 )
             {
-                return new NoLeaveAccount (accountToCreate.AccountNumber, accountToCreate.Name);
+                return new NoLeaveAccount (this.AccountNumber, this.Name);
             }
 
-            return new LeaveAccount(accountToCreate.AccountNumber, accountToCreate.Name)
+            return new LeaveAccount(this.AccountNumber, this.Name)
             {
-                AcquisitionStart = accountToCreate.AcquisitionStart.Value,
-                AcquisitionEnd = accountToCreate.AcquisitionEnd.Value,
-                ConsommationStart = accountToCreate.ConsommationStart.Value,
-                ConsommationEnd = accountToCreate.ConsommationEnd.Value,
-                AmountGainedPerFrequency = accountToCreate.AmountGainedPerFrequency.Value,
-                Frequency = (Frequency)Enum.Parse(typeof(Frequency), accountToCreate.Frequency)
+                AcquisitionStart = this.AcquisitionStart.Value,
+                AcquisitionEnd = this.AcquisitionEnd.Value,
+                ConsommationStart = this.ConsommationStart.Value,
+                ConsommationEnd = this.ConsommationEnd.Value,
+                AmountGainedPerFrequency = this.AmountGainedPerFrequency.Value,
+                Frequency = (Frequency)Enum.Parse(typeof(Frequency), this.Frequency)
             };
         }
     }

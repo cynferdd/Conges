@@ -2,7 +2,6 @@
 using AccountManagement.Domain.PrimaryPort;
 using AccountManagement.Domain.SecondaryPort;
 using AccountManagement.Domain.UseCase;
-using AccountManagement.Web;
 using AccountManagement.Web.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using NFluent;

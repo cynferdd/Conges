@@ -4,7 +4,6 @@ using AccountManagement.Domain.SecondaryPort;
 using AccountManagement.Domain.UseCase;
 using AccountManagement.Web;
 using AccountManagement.Web.Controllers;
-using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Mvc;
 using NFluent;
 using NSubstitute;

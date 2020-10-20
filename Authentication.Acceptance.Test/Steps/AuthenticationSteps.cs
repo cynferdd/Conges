@@ -1,10 +1,7 @@
-﻿using Authentication.Domain;
-using Authentication.Domain.SecondaryPorts;
-using Authentication.Domain.UseCases;
+﻿using Authentication.Domain.UseCases;
 using Authentication.Web.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using NFluent;
-using NSubstitute;
 using System;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;

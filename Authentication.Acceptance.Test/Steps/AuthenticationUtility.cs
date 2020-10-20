@@ -2,9 +2,6 @@
 using Authentication.Domain.SecondaryPorts;
 using NSubstitute;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Authentication.Acceptance.Test.Steps
 {

@@ -1,6 +1,5 @@
 ﻿using Shared.Core.DomainModeling;
 using System;
-using System.Data;
 
 namespace Authentication.Domain
 {

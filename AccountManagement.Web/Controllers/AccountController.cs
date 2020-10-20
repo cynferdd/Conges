@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AccountManagement.Domain;
 using AccountManagement.Domain.PrimaryPort;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Shared.Core.Exceptions;
 
 namespace AccountManagement.Web.Controllers
@@ -68,7 +65,7 @@ namespace AccountManagement.Web.Controllers
         {
             try
             {
-                await this.createAccountUseCase.CreateAsync(AccountDto.ToDomain(accountToCreate));
+                await this.createAccountUseCase.CreateAsync(accountToCreate.ToDomain());
                 return Ok();
             }
             catch (InvalidOperationException)

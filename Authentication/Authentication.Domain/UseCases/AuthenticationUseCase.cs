@@ -2,8 +2,6 @@
 using Authentication.Domain.SecondaryPorts;
 using Shared.Core.Exceptions;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Authentication.Domain.UseCases
