@@ -3,7 +3,7 @@ using System;
 
 namespace AccountManagement.Domain
 {
-    public abstract class Account : Entity<AccountId>
+    public abstract class Account : AggregateRoot<AccountId>
     {
         protected Account(AccountId id, string name)
             :base(id) 
