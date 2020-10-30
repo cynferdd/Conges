@@ -6,7 +6,7 @@ namespace AccountManagement.Domain
     {
         public LeaveAccount(
             AccountId id, 
-            string name, 
+            AccountName name, 
             Period acquisitionPeriod,
             Period consommationPeriod,
             decimal amountGained,

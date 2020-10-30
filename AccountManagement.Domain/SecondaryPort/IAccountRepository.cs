@@ -10,7 +10,7 @@ namespace AccountManagement.Domain.SecondaryPort
         Task<Account?> GetAsync(AccountId id);
 
         Task<bool> IdExists(AccountId id);
-        Task<bool> NameExists(string name);
+        Task<bool> NameExists(AccountName name);
         
         Task SaveAsync(Account account);
     }

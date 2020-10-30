@@ -1,5 +1,6 @@
 ﻿using AccountManagement.Domain;
 using System;
+using Shared.Core.Exceptions;
 
 namespace AccountManagement.Web
 {
@@ -29,7 +30,7 @@ namespace AccountManagement.Web
             var accountDto =  new AccountDto
             {
                 AccountNumber = (int)account.Id,
-                Name = account.Name,
+                Name = (string)account.Name,
                 ArchiveDate = account.ArchiveDate
             };
 
@@ -57,12 +58,27 @@ namespace AccountManagement.Web
                     this.ConsommationEnd == null
                 )
             {
-                return new NoLeaveAccount (new AccountId(this.AccountNumber), this.Name);
+                var validatedName = AccountName.TryCreate(this.Name);
+                // todo : faire tous les try create. 
+                // Si tout est valide ok
+                // sinon on concatène toutes les erreurs pour renvoyer le bon validationException
+                // Validation.CombineErrors
+                
+                // todo : validation sur les périodes
+                // la période de consommation commence après ou en même temps que la date de début de la période d'acquisition
+                if (validatedName.IsInvalid)
+                {
+                    throw new ValidationException(validatedName.Errors);
+                }
+                
+                return new NoLeaveAccount (new AccountId(this.AccountNumber), validatedName.Value);
+                
+                
             }
 
             return new LeaveAccount(
                 new AccountId(this.AccountNumber), 
-                this.Name,
+                new AccountName(this.Name),
                 new Period(AcquisitionStart.Value, AcquisitionEnd.Value),
                 new Period(ConsommationStart.Value, ConsommationEnd.Value),
                 AmountGainedPerFrequency.Value,

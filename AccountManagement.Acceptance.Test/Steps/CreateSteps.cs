@@ -26,31 +26,31 @@ namespace AccountManagement.Acceptance.Test.Steps
         [Given(@"un compte que l on souhaite créer avec un id (.*)")]
         public void SoitUnCompteQueLOnSouhaiteCreerAvecUnId(int id)
         {
-            this.futureAccount = new NoLeaveAccount(new AccountId(id), "");
+            this.futureAccount = new NoLeaveAccount(new AccountId(id), new AccountName("compte"));
         }
         
         [Given(@"un autre compte déjà existant avec un id (.*)")]
         public void SoitUnAutreCompteDejaExistantAvecUnId(int id)
         {
-            this.existingAccountFromId = new NoLeaveAccount(new AccountId(id), "existant");
+            this.existingAccountFromId = new NoLeaveAccount(new AccountId(id), new AccountName("existant"));
         }
         
         [Given(@"un compte que l on souhaite créer avec pour nom '(.*)'")]
         public void SoitUnCompteQueLOnSouhaiteCreerAvecPourNom(string name)
         {
-            this.futureAccount = new NoLeaveAccount(new AccountId(3), name);
+            this.futureAccount = new NoLeaveAccount(new AccountId(3), new AccountName(name));
         }
         
         [Given(@"un autre compte déjà existant avec pour nom '(.*)'")]
         public void SoitUnAutreCompteDejaExistantAvecPourNom(string name)
         {
-            this.existingAccountFromName = new NoLeaveAccount(new AccountId(4), name);
+            this.existingAccountFromName = new NoLeaveAccount(new AccountId(4), new AccountName(name));
         }
         
         [Given(@"un compte NoLeave non existant")]
         public void SoitUnCompteNoLeaveNonExistant()
         {
-            this.futureAccount = new NoLeaveAccount(new AccountId(10), "télétravail");
+            this.futureAccount = new NoLeaveAccount(new AccountId(10), new AccountName("télétravail"));
         }
         
         [Given(@"un compte Leave non existant")]
@@ -58,7 +58,7 @@ namespace AccountManagement.Acceptance.Test.Steps
         {
             this.futureAccount = new LeaveAccount(
                 new AccountId(11),
-                "SickLeave", 
+                new AccountName("SickLeave"), 
                 new Period(new DateTime(2020, 01, 01), new DateTime(2020, 12, 31)),
                 new Period(new DateTime(2020, 01, 01), new DateTime(2020, 12, 31)),
                 2, 
@@ -73,7 +73,7 @@ namespace AccountManagement.Acceptance.Test.Steps
 
             this.repository.IdExists(Arg.Any<AccountId>()).Returns((existingAccountFromId != null));
             
-            this.repository.NameExists(Arg.Any<string>()).Returns((existingAccountFromName != null));
+            this.repository.NameExists(Arg.Any<AccountName>()).Returns((existingAccountFromName != null));
 
             var createUseCase = new CreateAccountUseCase(repository);
 
