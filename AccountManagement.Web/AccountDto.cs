@@ -1,6 +1,9 @@
 ﻿using AccountManagement.Domain;
 using System;
+using System.Collections.Generic;
+using Shared.Core;
 using Shared.Core.Exceptions;
+using Shared.Core.Validations;
 
 namespace AccountManagement.Web
 {
@@ -49,41 +52,74 @@ namespace AccountManagement.Web
 
         internal Account ToDomain()
         {
-            if (
-                    string.IsNullOrEmpty(this.Frequency) ||
-                    this.AcquisitionStart == null ||
-                    this.AcquisitionEnd == null ||
-                    this.AmountGainedPerFrequency == null ||
-                    this.ConsommationStart == null ||
-                    this.ConsommationEnd == null
-                )
+            var accountId = new AccountId(this.AccountNumber);
+            var validatedName = AccountName.TryCreate(this.Name);
+            
+            if (IsNoLeaveAccount())
             {
-                var validatedName = AccountName.TryCreate(this.Name);
-                // todo : faire tous les try create. 
-                // Si tout est valide ok
-                // sinon on concatène toutes les erreurs pour renvoyer le bon validationException
-                // Validation.CombineErrors
-                
-                // todo : validation sur les périodes
-                // la période de consommation commence après ou en même temps que la date de début de la période d'acquisition
                 if (validatedName.IsInvalid)
                 {
                     throw new ValidationException(validatedName.Errors);
                 }
                 
-                return new NoLeaveAccount (new AccountId(this.AccountNumber), validatedName.Value);
-                
+                return new NoLeaveAccount (accountId, validatedName.Value);
                 
             }
 
-            return new LeaveAccount(
-                new AccountId(this.AccountNumber), 
-                new AccountName(this.Name),
-                new Period(AcquisitionStart.Value, AcquisitionEnd.Value),
-                new Period(ConsommationStart.Value, ConsommationEnd.Value),
-                AmountGainedPerFrequency.Value,
-                (Frequency)Enum.Parse(typeof(Frequency), this.Frequency)
-                );
+            var validatedAcquisitionPeriod = Period.TryCreate(this.AcquisitionStart.Value, this.AcquisitionEnd.Value);
+            
+            
+            var validatedConsommationPeriod = Period.TryCreate(this.ConsommationStart.Value, this.ConsommationEnd.Value);
+            
+
+            var validatedLeaveAccount = LeaveAccount.TryCreate(
+                accountId,
+                validatedName.Value,
+                validatedAcquisitionPeriod.Value,
+                validatedConsommationPeriod.Value,
+                this.AmountGainedPerFrequency.Value,
+                (Frequency) Enum.Parse(typeof(Frequency), this.Frequency));
+            
+            CombineErrors(validatedName, validatedAcquisitionPeriod, validatedConsommationPeriod,
+                validatedLeaveAccount);
+            
+            return validatedLeaveAccount.Value;
+        }
+
+        private void CombineErrors(Validation<AccountName> validatedName, Validation<Period> validatedAcquisitionPeriod, Validation<Period> validatedConsommationPeriod, Validation<LeaveAccount> validatedLeaveAccount)
+        {
+            var errors = new List<ValidationError>();
+            if (validatedName.IsInvalid)
+            {
+                errors.AddRange(validatedName.Errors);
+            }
+            if (validatedAcquisitionPeriod.IsInvalid)
+            {
+                errors.AddRange(validatedAcquisitionPeriod.Errors);
+            }
+            if (validatedConsommationPeriod.IsInvalid)
+            {
+                errors.AddRange(validatedConsommationPeriod.Errors);
+            }
+            if (validatedLeaveAccount.IsInvalid)
+            {
+                errors.AddRange(validatedLeaveAccount.Errors);
+            }
+
+            if (errors.Count > 0)
+            {
+                throw new ValidationException(new NonEmptyList<ValidationError>(errors));
+            }
+        }
+
+        private bool IsNoLeaveAccount()
+        {
+            return string.IsNullOrEmpty(this.Frequency) ||
+                   this.AcquisitionStart == null ||
+                   this.AcquisitionEnd == null ||
+                   this.AmountGainedPerFrequency == null ||
+                   this.ConsommationStart == null ||
+                   this.ConsommationEnd == null;
         }
     }
 }
