@@ -8,8 +8,13 @@ namespace Shared.Core.Validations
 {
     public static class Validation
     {
-        
-        
+
+        public static void EnsureIsValid(params IValidation[] validations) => 
+            validations
+                .Where(val => val.IsInvalid)
+                .SelectMany(v => v.Errors)
+                .EnsureIsValid();
+
         public static Validation<T> Valid<T>(T value) =>
             new InternalValid<T>(value);
 
@@ -70,7 +75,7 @@ namespace Shared.Core.Validations
         }
     }
 
-    public abstract class Validation<T> : StructuralEqualityObject
+    public abstract class Validation<T> : StructuralEqualityObject, IValidation
     {
         public abstract bool IsValid { get; }
         public bool IsInvalid => !IsValid;
@@ -82,4 +87,16 @@ namespace Shared.Core.Validations
                 ? Errors.ToList()
                 : new List<ValidationError>();
     }
+
+    public interface IValidation
+    {
+         bool IsValid { get; }
+         
+         bool IsInvalid { get; }
+         
+         NonEmptyList<ValidationError> Errors { get; }
+         
+    }
+
+    
 }

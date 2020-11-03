@@ -12,7 +12,7 @@ namespace Shared.Core.Validations
 
     public static class ValidationErrorExtensions
     {
-        public static void EnsureIsValid(this IReadOnlyCollection<ValidationError> errors)
+        public static void EnsureIsValid(this IEnumerable<ValidationError> errors)
         {
             if (errors.Any())
                 throw new ValidationException(errors.ToNonEmptyList());

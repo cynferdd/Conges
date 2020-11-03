@@ -28,31 +28,37 @@ namespace AccountManagement.Domain
             Period acquisitionPeriod,
             Period consommationPeriod,
             decimal amountGained,
-            Frequency frequency) => 
-                Validate(id, name, acquisitionPeriod, consommationPeriod, amountGained, frequency)
+            Frequency frequency)
+        {
+            return 
+                Validate(acquisitionPeriod, consommationPeriod, amountGained)
                     .ToValidation(
                         () => new LeaveAccount(
-                            id, 
-                            name, 
+                            id,
+                            name,
                             acquisitionPeriod,
                             consommationPeriod,
                             amountGained,
                             frequency));
+        }
 
         private static IReadOnlyCollection<ValidationError> Validate(
-            AccountId id, 
-            AccountName name, 
             Period acquisitionPeriod,
             Period consommationPeriod,
-            decimal amountGained,
-            Frequency frequency)
+            decimal amountGained)
         {
             var errors = new List<ValidationError>();
 
             if (consommationPeriod.Start < acquisitionPeriod.Start)
             {
-                errors.Add(new IsInvalidConsommationPeriod());
+                errors.Add(new IsInvalidConsommationPeriodError());
             }
+
+            if (amountGained <= 0)
+            {
+                errors.Add(new IsNegativeOrZeroAmountError());
+            }
+            
 
             return errors;
         }
@@ -65,6 +71,8 @@ namespace AccountManagement.Domain
 
         public Frequency Frequency { get; set; }
 
-        public class IsInvalidConsommationPeriod : SimpleValidationError { }
+        public class IsInvalidConsommationPeriodError : SimpleValidationError { }
+
+        public class IsNegativeOrZeroAmountError : SimpleValidationError { }
     }
 }

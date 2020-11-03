@@ -27,9 +27,9 @@ namespace AccountManagement.Domain
             Validate(start, end).ToValidation(() => new Period(start, end));
 
         private static IReadOnlyCollection<ValidationError> Validate(DateTime start, DateTime end) =>
-            end < start ? 
-                new List<ValidationError> {new IsInvalidPeriod()} : 
-                new List<ValidationError>();
+            end < start 
+                ? new List<ValidationError> {new IsInvalidPeriod()} 
+                : new List<ValidationError>();
         
 
         public class IsInvalidPeriod : SimpleValidationError { }

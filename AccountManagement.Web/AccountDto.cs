@@ -72,6 +72,8 @@ namespace AccountManagement.Web
             var validatedConsommationPeriod = Period.TryCreate(this.ConsommationStart.Value, this.ConsommationEnd.Value);
             
 
+            Validation.EnsureIsValid(validatedName, validatedAcquisitionPeriod, validatedConsommationPeriod);
+            
             var validatedLeaveAccount = LeaveAccount.TryCreate(
                 accountId,
                 validatedName.Value,
@@ -79,38 +81,11 @@ namespace AccountManagement.Web
                 validatedConsommationPeriod.Value,
                 this.AmountGainedPerFrequency.Value,
                 (Frequency) Enum.Parse(typeof(Frequency), this.Frequency));
-            
-            CombineErrors(validatedName, validatedAcquisitionPeriod, validatedConsommationPeriod,
-                validatedLeaveAccount);
+
             
             return validatedLeaveAccount.Value;
         }
 
-        private void CombineErrors(Validation<AccountName> validatedName, Validation<Period> validatedAcquisitionPeriod, Validation<Period> validatedConsommationPeriod, Validation<LeaveAccount> validatedLeaveAccount)
-        {
-            var errors = new List<ValidationError>();
-            if (validatedName.IsInvalid)
-            {
-                errors.AddRange(validatedName.Errors);
-            }
-            if (validatedAcquisitionPeriod.IsInvalid)
-            {
-                errors.AddRange(validatedAcquisitionPeriod.Errors);
-            }
-            if (validatedConsommationPeriod.IsInvalid)
-            {
-                errors.AddRange(validatedConsommationPeriod.Errors);
-            }
-            if (validatedLeaveAccount.IsInvalid)
-            {
-                errors.AddRange(validatedLeaveAccount.Errors);
-            }
-
-            if (errors.Count > 0)
-            {
-                throw new ValidationException(new NonEmptyList<ValidationError>(errors));
-            }
-        }
 
         private bool IsNoLeaveAccount()
         {

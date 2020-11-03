@@ -2,8 +2,6 @@
 {
     public enum Frequency
     {
-        Day,
-        Week,
         Month,
         Year
 

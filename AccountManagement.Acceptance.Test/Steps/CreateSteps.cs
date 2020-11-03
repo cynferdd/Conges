@@ -62,7 +62,7 @@ namespace AccountManagement.Acceptance.Test.Steps
                 new Period(new DateTime(2020, 01, 01), new DateTime(2020, 12, 31)),
                 new Period(new DateTime(2020, 01, 01), new DateTime(2020, 12, 31)),
                 2, 
-                Frequency.Day);
+                Frequency.Month);
         }
         
         [When(@"on veut créer le compte")]
