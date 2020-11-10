@@ -18,7 +18,7 @@ namespace AccountManagement.Infra.SecondaryAdapters
         }
         public async Task<IReadOnlyCollection<Account>> GetAsync()
         {
-            var accounts = await _context.Set<DbAccount>().ToListAsync();
+            var accounts = await _context.Set<DbAccount>().Where(acc => acc.ArchiveDate == null).ToListAsync();
             return accounts.Select(account => account.ToDomain()).ToList();
         }
 
@@ -26,8 +26,8 @@ namespace AccountManagement.Infra.SecondaryAdapters
 
         public async Task<Account?> GetAsync(AccountId id)
         {
-            var account = await _context.Set<DbAccount>().FindAsync((int)id);
-            return account.ToDomain();
+            var account = await _context.Set<DbAccount>().FirstOrDefaultAsync(acc => acc.ArchiveDate == null && acc.Id == (int)id);
+            return account?.ToDomain();
         }
 
         public async Task<bool> IdExists(AccountId id)
@@ -41,12 +41,19 @@ namespace AccountManagement.Infra.SecondaryAdapters
             return await _context.Set<DbAccount>().AnyAsync(a => a.Name == (string)name);
         }
 
-        public Task SaveAsync(Account account)
+        public async Task SaveAsync(Account account)
         {
-            // todo : FromDomain
-            // todo : création avec "candidat de compte"
-            // todo : 2 signatures pour SaveAsync (uncreated account => juste un map, add et saveAsync) (Account => find dbAccount, map champs et save)
-            throw new System.NotImplementedException();
+            var dbAccount =
+                await _context.Set<DbAccount>().FirstOrDefaultAsync(a => a.Id == (int) account.Id);
+            if (dbAccount is null)
+            {
+                dbAccount = new DbAccount();
+                await _context.AddAsync(dbAccount);
+            }
+
+            dbAccount.UpdateFromDomain(account);
+            
+            await _context.SaveChangesAsync();
         }
     }
 }

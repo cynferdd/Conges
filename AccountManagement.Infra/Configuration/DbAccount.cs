@@ -36,5 +36,20 @@ namespace AccountManagement.Infra.Configuration
                 Frequency.Value
             );
         }
+
+        public void UpdateFromDomain(Account account)
+        {
+            this.Name = (string) account.Name;
+            this.ArchiveDate = account.ArchiveDate;
+            if (account is LeaveAccount leaveAccount)
+            {
+                this.ConsommationStartDate = leaveAccount.ConsommationPeriod.Start;
+                this.ConsommationEndDate = leaveAccount.ConsommationPeriod.End;
+                this.AcquisitionStartDate = leaveAccount.AcquisitionPeriod.Start;
+                this.AcquisitionEndDate = leaveAccount.AcquisitionPeriod.End;
+                this.AmountGained = leaveAccount.AmountGainedPerFrequency;
+                this.Frequency = leaveAccount.Frequency;
+            };
+        }
     }
 }

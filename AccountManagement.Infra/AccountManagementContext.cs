@@ -17,5 +17,10 @@ namespace AccountManagement.Infra
             modelBuilder.ApplyConfiguration(new DbAccountConfiguration());
 
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+        }
     }
 }

@@ -9,7 +9,7 @@ using Shared.Core.Exceptions;
 namespace AccountManagement.Web.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("account")]
     public class AccountController : ControllerBase
     {
         private readonly IGetAccountsUseCase getAccountsUseCase;
@@ -24,13 +24,21 @@ namespace AccountManagement.Web.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromQuery] int id)
+        public async Task<IActionResult> GetAsync([FromRoute] int id)
         {
-            var account = await this.getAccountsUseCase.GetAsync(new AccountId(id));
+            try
+            {
+                var account = await this.getAccountsUseCase.GetAsync(new AccountId(id));
 
-            var dtoAccount = AccountDto.FromDomain(account);
+                var dtoAccount = AccountDto.FromDomain(account);
 
-            return Ok(dtoAccount);
+                return Ok(dtoAccount);
+            }
+            catch (NotFoundException<AccountId>)
+            {
+                return NotFound();
+            }
+            
         }
 
         [HttpGet]
@@ -47,7 +55,7 @@ namespace AccountManagement.Web.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> ArchiveAsync([FromQuery]int id)
+        public async Task<IActionResult> ArchiveAsync([FromRoute]int id)
         {
             try
             {

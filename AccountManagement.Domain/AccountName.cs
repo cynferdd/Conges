@@ -24,7 +24,7 @@ namespace AccountManagement.Domain
             }
 
             var errors = new List<ValidationError>();
-            if (!Regex.IsMatch(name, @"^(\p{L}|\d|-)+$", RegexOptions.CultureInvariant))
+            if (!Regex.IsMatch(name, @"^(\p{L}|\d|-| )+$", RegexOptions.CultureInvariant))
             {
                 errors.Add(new IsInvalidCharacterError());
             }

@@ -1,5 +1,11 @@
+using AccountManagement.Domain.PrimaryPort;
+using AccountManagement.Domain.SecondaryPort;
+using AccountManagement.Domain.UseCase;
+using AccountManagement.Infra;
+using AccountManagement.Infra.SecondaryAdapters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,6 +25,13 @@ namespace AccountManagement.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IArchiveAccountUseCase, ArchiveAccountUseCase>();
+            services.AddScoped<ICreateAccountUseCase, CreateAccountUseCase>();
+            services.AddScoped<IGetAccountsUseCase, GetAccountsUseCase>();
+            services.AddDbContext<AccountManagementContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("Hexagonal")));
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

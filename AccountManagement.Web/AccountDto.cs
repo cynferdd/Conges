@@ -14,8 +14,6 @@ namespace AccountManagement.Web
 
         public string Name { get; set; }
 
-        public DateTime? ArchiveDate { get; set; }
-
         public DateTime? AcquisitionStart { get; set; }
 
         public DateTime? AcquisitionEnd { get; set; }
@@ -34,7 +32,6 @@ namespace AccountManagement.Web
             {
                 AccountNumber = (int)account.Id,
                 Name = (string)account.Name,
-                ArchiveDate = account.ArchiveDate
             };
 
             if (account is LeaveAccount leaveAccount)
